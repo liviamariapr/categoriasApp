@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import '../components/main_drawer.dart';
 import '../models/settings.dart';
 class SettingsScreen extends StatefulWidget {
-  
+  final Function(Settings) onSettingsChanged;
+  final Settings settings;
+
+  const SettingsScreen(this.onSettingsChanged, this.settings);
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
   
-  var settings =  Settings(); 
-  
+  Settings settings= new Settings(); 
+  initState(){
+    super.initState();
+    settings = widget.settings;
+  }
   Widget _createSwitch(String title, String subtitle, bool value1, Function(bool) onChanged){
-    return SwitchListTile.adaptive(title: Text(title), subtitle: Text(subtitle), value: value1, onChanged:onChanged);
+    return SwitchListTile.adaptive(title: Text(title), subtitle: Text(subtitle), value: value1, onChanged:(value) {onChanged(value); widget.onSettingsChanged(settings);});
 
   }
 
